@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login/Register</title>
+    <link rel="stylesheet" href="{% static "input.css" %}">
+     
+
+    <style>
+        body {
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+
+        .navbar {
+            background-color: #343a40 !important;
+        }
+
+        .account-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            height: 16rem;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out; /* Add transition property */
+        }
+
+        .form-btn {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .form-btn span {
+            cursor: pointer;
+            padding: 10px;
+            width: 100px;
+            text-align: center;
+            font-weight: bold;
+            color: #333;
+            border-radius: 5px;
+            background-color: transparent;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-btn span:hover {
+            background-color: #e0e0e0;
+            border-bottom: 2px solid #333; /* Add underline on hover */
+        }
+
+
+        #Indicator {
+            height: 2px;
+            background-color: #333;
+            transition: transform 0.3s ease;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #555;
+        }
+
+        a {
+            color: #333;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            margin-top: 10px;
+        }
+
+        /* Add these styles to hide/show forms */
+        #LoginForm {
+            display: block;
+        }
+
+        #UserRegistrationForm {
+            display: none;
+        }
+        
+        .fade-out {
+            opacity: 0;
+        }
+        #log.selected, #register.selected {
+            background-color: #555;
+            color: #fff;
+        }
+        
+        
+    </style>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <form class="d-flex" role="search"></form>
+    </div>
+</nav>
+
+<br>
+<br>
+
+<div class="account-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-2">
+                <div class="form-container">
+                    <div class="form-btn">
+                        <span onclick="toggleForm('login')" id="log" class="selected">Login</span>
+                        <span onclick="toggleForm('register')" id="register">Register</span>
+                        <hr id="Indicator">
+                    </div>
+                    <form id="LoginForm" method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn">Login</button>
+                        <a href="">Forget Password</a>
+                    </form>
+
+                    <form id="UserRegistrationForm" method="post">
+                        {% csrf_token %}
+                        {{ user_form.as_p}}
+                        <button type="submit" class="btn">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+<script>
+    function toggleForm(tab) {
+        var loginForm = document.getElementById('LoginForm');
+        var registerForm = document.getElementById('UserRegistrationForm');
+        var indicator = document.getElementById('Indicator');
+        var loginBtn = document.getElementById('log');
+        var registerBtn = document.getElementById('register');
+
+        if (tab === 'login') {
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+            indicator.style.transform = 'translateX(0)';
+            loginBtn.classList.add('selected');
+            registerBtn.classList.remove('selected');
+        } else {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            indicator.style.transform = 'translateX(100px)';
+            loginBtn.classList.remove('selected');
+            registerBtn.classList.add('selected');
+        }
+    }
+</script>
+
+</body>
+</html>
